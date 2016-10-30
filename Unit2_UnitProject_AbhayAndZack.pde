@@ -1,3 +1,8 @@
+import org.openkinect.freenect.*;
+import org.openkinect.freenect2.*;
+import org.openkinect.processing.*;
+import org.openkinect.tests.*;
+
 import shiffman.box2d.*;
 import org.jbox2d.common.*;
 import org.jbox2d.collision.shapes.*;
@@ -14,9 +19,15 @@ PImage[] boundaries = new PImage[2];
 int h, s, b;
 boolean colourSelectorShowing;
 
+Kinect kinect;
+KinectTracker tracker;
+
 void setup()
 {
-  fullScreen();
+  fullScreen(P3D);
+
+  kinect = new Kinect(this);
+  tracker = new KinectTracker();
 
   colorMode(HSB, 255, 255, 255);
 
@@ -50,15 +61,26 @@ void draw()
 
   background(255);
 
+  tracker.track();
+
   for (int i = 0; i < boundary.length; i++)
   {
     boundary[i].display();
   }
 
-  if (mousePressed)
-  {
-    sand.add(new Sand(mouseX, mouseY, sandImage, color(h, s, b), true));
-  }
+  tracker.display();
+
+  PVector v1 = tracker.getPos();
+
+  fill(0, 128, 255);
+  ellipse(v1.x, v1.y, 5, 5);
+
+  PVector v2 = tracker.getLerpedPos();
+
+  fill(128, 255, 0);
+  ellipse(v2.x, v2.y, 5, 5);
+
+  sand.add(new Sand(v1.x, v1.y, sandImage, color(h, s, b), true));
 
   for (int i = 0; i < sand.size(); i++)
   {
@@ -95,9 +117,7 @@ void mouseReleased()
       h = mouseX/(width/360);
       s = 2*mouseY/(height/255);
       b = 255;
-    }
-    
-    else if(mouseY >= height/2)
+    } else if (mouseY >= height/2)
     {
       h = mouseX/(width/360);
       s = 255;

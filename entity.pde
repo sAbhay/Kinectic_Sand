@@ -2,8 +2,7 @@ class Entity
 {
   float x;
   float y;
-
-  PImage img;
+  int entityWidth, entityHeight;
   String type;
 
   Body body;
@@ -12,24 +11,25 @@ class Entity
   int imgH;
   int imgW;
   
+  
   color bodyColour;
 
-  Entity(float _x, float _y, PImage _img, String _type, color _bodyColour, boolean _isAlive)
+  Entity(float _x, float _y, int _entityWidth, int _entityHeight, String _type, color _bodyColour, boolean _isAlive)
   {
     x = _x;
     y = _y;
-
-    img = _img;
+    entityHeight = _entityHeight;
+    entityWidth = _entityWidth;
     type = _type;
     isAlive = _isAlive;
-    
     bodyColour = _bodyColour;
+    rect(_x, _y, _entityWidth, _entityHeight); 
   }
 
   private void createBody(BodyType _bType, float _restitution, float _density)
   {
-    imgH = img.height;
-    imgW = img.width;
+    imgH = entityHeight;
+    imgW = entityWidth;
 
     PolygonShape sd = new PolygonShape();
     float box2dW = box2d.scalarPixelsToWorld(imgW/2);
@@ -40,7 +40,7 @@ class Entity
     fd.shape = sd;
 
     fd.density = _density;
-    fd.friction = 0.3;
+    fd.friction = 1;
     fd.restitution = _restitution;
 
     BodyDef bd = new BodyDef();
@@ -54,14 +54,12 @@ class Entity
   public void display()
   {
     PVector pos = box2d.getBodyPixelCoordPVector(body);
-    float a = body.getAngle();
-
-    imageMode(CENTER);
+    //float a = body.getAngle();
     pushMatrix();
     translate(pos.x, pos.y);
-    rotate(-a);
-    tint(bodyColour);
-    image(img, 0, 0);
+    //rotate(-a);
+    //tint(bodyColour);
+    rect(0, 0, imgW, imgH);
     popMatrix();
   }
 

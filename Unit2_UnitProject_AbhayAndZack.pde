@@ -17,13 +17,16 @@ PImage sandImage;
 PImage[] boundaries = new PImage[2];
 
 int h, s, b;
+int devices;
 boolean colourSelectorShowing;
+//PVector v1, v2;
 
 Kinect kinect;
 KinectTracker tracker;
 
 void setup()
 {
+  noStroke();
   fullScreen(P3D);
 
   kinect = new Kinect(this);
@@ -33,26 +36,12 @@ void setup()
 
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
-  box2d.setGravity(0, -9.81);
+  box2d.setGravity(0, -15);
   box2d.setContinuousPhysics(true);
 
-  sandImage = loadImage("sand.jpg");
-  sandImage.resize(2, 2);
-
-  for (int i = 0; i < boundaries.length; i++)
-  {
-    boundaries[i] = loadImage("platform.png");
-  }
-
-  boundaries[0].resize(width, 2);
-
-  boundaries[1].resize(2, height);
-
-  boundary[0] = new Boundary(0, height/2, boundaries[1], color(255), true);
-  boundary[1] = new Boundary(width/2, height-1, boundaries[0], color(255), true);
-  boundary[2] = new Boundary(width-1, height/2, boundaries[1], color(255), true);
-
-  noStroke();
+  boundary[0] = new Boundary(0, height/2, 2, height, color(255), true);
+  boundary[1] = new Boundary(width/2, height - 1, width, 2, color(255), true);
+  boundary[2] = new Boundary(width - 1, height/2, 2, height, color(255), true);
 }
 
 void draw()
@@ -70,17 +59,24 @@ void draw()
 
   tracker.display();
 
-  PVector v1 = tracker.getPos();
+  //if (devices >= 1)
+  //{
+    PVector v1 = tracker.getPos();
+    PVector v2 = tracker.getLerpedPos();
+    fill(0, 128, 255);
+    ellipse(v1.x, v1.y, 5, 5);
 
-  fill(0, 128, 255);
-  ellipse(v1.x, v1.y, 5, 5);
-
-  PVector v2 = tracker.getLerpedPos();
-
-  fill(128, 255, 0);
-  ellipse(v2.x, v2.y, 5, 5);
-
-  sand.add(new Sand(v1.x, v1.y, sandImage, color(h, s, b), true));
+    fill(128, 255, 0);
+    ellipse(v2.x, v2.y, 5, 5);
+  //}
+  //} else if(devices == 0)
+  //{
+  //  v1.x = mouseX;
+  //  v1.y = mouseY;
+  //  fill(0, 128, 255);
+  //  ellipse(v1.x, v1.y, 5, 5);
+  //}
+  sand.add(new Sand(v1.x, v1.y, 2, 2, color(h, s, b), true));
 
   for (int i = 0; i < sand.size(); i++)
   {
@@ -115,13 +111,13 @@ void mouseReleased()
     if (mouseY <= height/2)
     {
       h = mouseX/(width/360);
-      s = 2*mouseY/(height/255);
+      s = 2 * mouseY/(height/255);
       b = 255;
     } else if (mouseY >= height/2)
     {
       h = mouseX/(width/360);
       s = 255;
-      b = 2*mouseY/(height/255);
+      b = 2 * mouseY/(height/255);
     }
   }
 }
@@ -129,5 +125,5 @@ void mouseReleased()
 void keyPressed()
 {
   if (colourSelectorShowing) colourSelectorShowing = false;
-  else if (!colourSelectorShowing) colourSelectorShowing = true;
+  else if (!colourSelectorShowing && key != BACKSPACE) colourSelectorShowing = true;
 }

@@ -18,52 +18,54 @@ void setup()
 {
   fullScreen();
 
+  colorMode(HSB, 255, 255, 255);
+
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
   box2d.setGravity(0, -9.81);
   box2d.setContinuousPhysics(true);
- 
+
   sandImage = loadImage("sand.jpg");
   sandImage.resize(2, 2);
- 
- for(int i = 0; i < boundaries.length; i++)
- {
-   boundaries[i] = loadImage("platform.png");
- }
- 
+
+  for (int i = 0; i < boundaries.length; i++)
+  {
+    boundaries[i] = loadImage("platform.png");
+  }
+
   boundaries[0].resize(width, 2);
-  
+
   boundaries[1].resize(2, height);
-  
+
   boundary[0] = new Boundary(0, height/2, boundaries[1], color(255), true);
   boundary[1] = new Boundary(width/2, height-1, boundaries[0], color(255), true);
   boundary[2] = new Boundary(width-1, height/2, boundaries[1], color(255), true);
-  
+
   noStroke();
 }
 
 void draw()
 {
   box2d.step();
-  
+
   background(255);
-  
-  for(int i = 0; i < boundary.length; i++)
+
+  for (int i = 0; i < boundary.length; i++)
   {
-   boundary[i].display(); 
+    boundary[i].display();
   }
-  
-  if(mousePressed)
+
+  if (mousePressed)
   {
-   sand.add(new Sand(mouseX, mouseY, sandImage, color(255, 0, 0), true)); 
+    sand.add(new Sand(mouseX, mouseY, sandImage, color(h, s, b), true));
   }
-  
-  for(int i = 0; i < sand.size(); i++)
+
+  for (int i = 0; i < sand.size(); i++)
   {
-   sand.get(i).display(); 
+    sand.get(i).display();
   }
-  
-  if(colourSelectorShowing)
+
+  if (colourSelectorShowing)
   {
     colourSelector();
   }
@@ -76,15 +78,36 @@ void colourSelector()
     for (int j = 0; j < 256; j++)
     {
       fill(i, j, 255);
-      ellipse(i * width/(255*2), j * height/(4*255), width/255, height/255); 
+      ellipse(i * width/255, j * height/(2*255), 2 * width/255, 2 * height/255); 
 
       fill(i, 255, 255-j);
-      ellipse(i * width/(2*255), j * height/(4*255) + height/2, width/255, height/255);
+      ellipse(i * width/255, j * height/(2*255) + height/2, 2 * width/255, 2 * height/255);
     }
   }
 }
 
-void mousePressed()
+void mouseReleased()
 {
-  colourSelectorShowing = true;
+  if (colourSelectorShowing)
+  {
+    if (mouseY <= height/2)
+    {
+      h = mouseX/(width/360);
+      s = 2*mouseY/(height/255);
+      b = 255;
+    }
+    
+    else if(mouseY >= height/2)
+    {
+      h = mouseX/(width/360);
+      s = 255;
+      b = 2*mouseY/(height/255);
+    }
+  }
+}
+
+void keyPressed()
+{
+  if (colourSelectorShowing) colourSelectorShowing = false;
+  else if (!colourSelectorShowing) colourSelectorShowing = true;
 }

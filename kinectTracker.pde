@@ -76,7 +76,8 @@ class KinectTracker
           img.pixels[imgIndex] = color(0, 255, 255);
         } else
         {
-          img.pixels[imgIndex] = color(0, 0);
+          img.pixels[imgIndex] = color(0, 0); // all other pixels are transparent
+          //img.pixels[imgIndex] = backImg.pixels[index];
         }
       }
     }

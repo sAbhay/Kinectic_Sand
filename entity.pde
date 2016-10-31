@@ -11,7 +11,7 @@ class Entity
 
   int imgH;
   int imgW;
-  
+
   color bodyColour;
 
   Entity(float _x, float _y, PImage _img, String _type, color _bodyColour, boolean _isAlive)
@@ -22,7 +22,7 @@ class Entity
     img = _img;
     type = _type;
     isAlive = _isAlive;
-    
+
     bodyColour = _bodyColour;
   }
 
@@ -74,7 +74,7 @@ class Entity
   {
     Vec2 pos = box2d.getBodyPixelCoord(body);
 
-    if (pos.y > height + imgH || pos.x < -imgW || pos.x > width + imgW)
+    if (pos.y > height + 1 + imgH || pos.x < -imgW - 1|| pos.x > width + imgW + 1)
     {
       killBody();
       return true;

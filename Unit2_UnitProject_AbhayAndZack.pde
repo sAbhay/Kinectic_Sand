@@ -48,9 +48,9 @@ void setup()
 
   boundaries[1].resize(2, height);
 
-  boundary[0] = new Boundary(0, height/2, boundaries[1], color(255), true);
-  boundary[1] = new Boundary(width/2, height-1, boundaries[0], color(255), true);
-  boundary[2] = new Boundary(width-1, height/2, boundaries[1], color(255), true);
+  boundary[0] = new Boundary(-1, height/2, boundaries[1], color(255), true);
+  boundary[1] = new Boundary(width/2, height, boundaries[0], color(255), true);
+  boundary[2] = new Boundary(width, height/2, boundaries[1], color(255), true);
 
   noStroke();
 }
@@ -128,6 +128,9 @@ void mouseReleased()
 
 void keyPressed()
 {
-  if (colourSelectorShowing) colourSelectorShowing = false;
-  else if (!colourSelectorShowing) colourSelectorShowing = true;
+  if (key == ' ')
+  {
+    if (colourSelectorShowing) colourSelectorShowing = false;
+    else if (!colourSelectorShowing) colourSelectorShowing = true;
+  }
 }

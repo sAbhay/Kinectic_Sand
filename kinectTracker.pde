@@ -83,8 +83,8 @@ class KinectTracker
 
     img.updatePixels();
 
-    //image(img, 0, 0, width, height);
-    image(img, width/2, height/2, width, height);
+    image(img, 0, 0, width, height);
+    //image(img, width/2, height/2, width, height);
   }
 
   PVector getPos()

@@ -8,13 +8,17 @@ import org.jbox2d.common.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.dynamics.*;
 
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*;
+
 Box2DProcessing box2d;
 
 ArrayList<Sand> sand = new ArrayList<Sand>();
 Boundary[] boundary = new Boundary[3];
-
-PImage sandImage;
-PImage[] boundaries = new PImage[2];
 
 int h, s, b;
 int devices;
@@ -42,10 +46,21 @@ void setup()
   boundary[0] = new Boundary(0, height/2, 2, height, color(255), true);
   boundary[1] = new Boundary(width/2, height - 1, width, 2, color(255), true);
   boundary[2] = new Boundary(width - 1, height/2, 2, height, color(255), true);
+  
+  minim = new Minim(this);
+  music = minim.getLineOut();
+  recorder = minim.createRecorder(music, "Sweet Tunez.wav");
+  time = millis();
 }
 
 void draw()
 {
+  if(time < millis())
+  {
+   GenerateMusic(60);
+   time += 10000; 
+  }
+  
   box2d.step();
 
   background(255);
@@ -126,4 +141,32 @@ void keyPressed()
 {
   if (colourSelectorShowing) colourSelectorShowing = false;
   else if (!colourSelectorShowing && key != BACKSPACE) colourSelectorShowing = true;
+  
+    if(key == 'r')
+  {
+    if (recorder.isRecording())
+    {
+      recorder.endRecord(); 
+      println("Recorded.");
+    } else
+    {
+      recorder.beginRecord();
+    }
+  }
+  if (key == 'c')
+  {
+    if (chords == false)
+    {
+      chords = true;
+    } else
+    {
+     chords = false; 
+    }
+  } 
+
+  if (key == 'z')
+  {
+    recorder.save();
+    println("Saved.");
+  }
 }

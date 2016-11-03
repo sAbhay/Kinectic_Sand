@@ -32,8 +32,8 @@ String scales[][] =
   {"Gb" + octave[0], "Ab" + octave[0], "A" + octave[0], "B" + octave[0], "Db" + octave[1], "D" + octave[1], "F" + octave[1], "Gb" + octave[1]}, //F# or Gb Harmonic Minor
   {"G" + octave[0], "A" + octave[0], "Bb" + octave[0], "C" + octave[1], "D" + octave[1], "Eb" + octave[1], "Gb" + octave[1], "G" + octave[1]}, //G Harmonic Minor
   {"Ab" + octave[0], "Bb" + octave[0], "B" + octave[0], "Db" + octave[1], "Eb" + octave[1], "E" + octave[1], "G" + octave[1], "Ab" + octave[1]}, //G# or Ab Harmonic Minor
-  //The Chrome Zone
-  {"Ab" + octave[0], "A" + octave[0], "Bb" + octave[0], "B" + octave[0], "C" + octave[1], "Db" + octave[1], "D" + octave[1], "Eb" + octave[1], "E" + octave[1], "F" + octave[1], "Gb" + octave[1], "G" + octave[1]} //Chromatic Scale
+  ////The Chrome Zone
+  //{"Ab" + octave[0], "A" + octave[0], "Bb" + octave[0], "B" + octave[0], "C" + octave[1], "Db" + octave[1], "D" + octave[1], "Eb" + octave[1], "E" + octave[1], "F" + octave[1], "Gb" + octave[1], "G" + octave[1]} //Chromatic Scale
 }; 
 
 int numberOfNotes, scale, number;
@@ -48,7 +48,7 @@ void GenerateMusic(int tempo)
 {
   music.setTempo(tempo);
   music.pauseNotes();
-  scale = (int)random(1, 23);
+  scale = (int)random(1, 25);
   for (int i = 0; i < 20; i++)
   {
     if(i == 1 || i == 19)

@@ -1,39 +1,28 @@
 class Entity
 {
-  float x;
-  float y;
-  int entityWidth, entityHeight;
-  String type;
+  private float x;
+  private float y;
+  private int entityWidth, entityHeight;
 
-  Body body;
-  boolean isAlive;
+  private Body body;
 
-  int imgH;
-  int imgW;
-  
-  
-  color bodyColour;
+  private color bodyColour;
 
-  Entity(float _x, float _y, int _entityWidth, int _entityHeight, String _type, color _bodyColour, boolean _isAlive)
+  Entity(float _x, float _y, int _entityWidth, int _entityHeight, color _bodyColour)
   {
     x = _x;
     y = _y;
     entityHeight = _entityHeight;
     entityWidth = _entityWidth;
-    type = _type;
-    isAlive = _isAlive;
     bodyColour = _bodyColour;
     rect(_x, _y, _entityWidth, _entityHeight); 
   }
 
   private void createBody(BodyType _bType, float _restitution, float _density)
   {
-    imgH = entityHeight;
-    imgW = entityWidth;
-
     PolygonShape sd = new PolygonShape();
-    float box2dW = box2d.scalarPixelsToWorld(imgW/2);
-    float box2dH = box2d.scalarPixelsToWorld(imgH/2);
+    float box2dW = box2d.scalarPixelsToWorld(entityWidth/2);
+    float box2dH = box2d.scalarPixelsToWorld(entityHeight/2);
     sd.setAsBox(box2dW, box2dH);
 
     FixtureDef fd = new FixtureDef();
@@ -55,10 +44,11 @@ class Entity
   {
     PVector pos = box2d.getBodyPixelCoordPVector(body);
     fill(bodyColour);
-    rect(pos.x, pos.y, imgW, imgH);
+    noStroke();
+    rect(pos.x, pos.y, entityWidth, entityHeight);
   }
 
-  private void killBody()
+  public void killBody()
   {
     box2d.destroyBody(body);
   }
@@ -67,7 +57,7 @@ class Entity
   {
     Vec2 pos = box2d.getBodyPixelCoord(body);
 
-    if (pos.y > height + imgH || pos.x < -imgW || pos.x > width + imgW)
+    if (pos.y > height + entityHeight || pos.x < -entityWidth || pos.x > width + entityWidth)
     {
       killBody();
       return true;

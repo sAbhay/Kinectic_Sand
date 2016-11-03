@@ -67,6 +67,9 @@ void setup()
 
 void draw()
 {
+  if(selectedOctave < 1) selectedOctave = 1;
+  if(selectedOctave > 5) selectedOctave = 5;
+  
   if (time < millis())
   {
     GenerateMusic(60);
@@ -214,5 +217,18 @@ void keyPressed()
     {
       kinectControl = true;
     }
+  }
+  
+  if(key == CODED)
+  {
+  if(keyCode == UP)
+  {
+    selectedOctave++;
+  }
+  
+  if(keyCode == DOWN)
+  {
+    selectedOctave--;
+  }
   }
 }

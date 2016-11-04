@@ -43,9 +43,16 @@ class Entity
   public void display()
   {
     PVector pos = box2d.getBodyPixelCoordPVector(body);
+    float a = body.getAngle();
+    
+    pushMatrix();
+    translate(pos.x, pos.y);
+    rotate(-a);
     fill(bodyColour);
     noStroke();
-    rect(pos.x, pos.y, entityWidth, entityHeight);
+    rectMode(CENTER);
+    rect(0, 0, entityWidth, entityHeight);
+    popMatrix();
   }
 
   public void killBody()

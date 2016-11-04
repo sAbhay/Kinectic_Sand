@@ -4,11 +4,15 @@ class Button
   int y;
   int h;
   float w;
+
   int textSize;
   String text;
-  boolean statement;
 
-  Button(int _x, int _y, int _h, int _textSize, String _text, boolean _statement)
+  int number;
+
+  String type;
+
+  Button(int _x, int _y, int _h, int _textSize, String _text, String _type, int _number)
   {
     x = _x;
     y = _y;
@@ -19,16 +23,33 @@ class Button
     h = _h;
     w = text.length() * 13 * 1.5384615385 * textSize/30;
 
-    statement = _statement;
+    type = _type;
+
+    number = _number;
   }
 
-  void display()
-  {
-    stroke(0);
-    fill(255);
+  void display(boolean statement)
+  { 
+    if (statement)
+    {
+      stroke(0);
+      fill(255);
+    } else 
+    {
+      stroke(255);
+      fill(0);
+    }
+
     rect(x, y, w, h);
 
-    fill(0);
+    if (statement)
+    {
+      fill(0);
+    } else 
+    {
+      fill(255);
+    }
+
     textSize(textSize);
     text(text, x, y + h/4);
   }
@@ -37,12 +58,31 @@ class Button
   {
     if (mouseX >= x - w/2 && mouseX <= x + w/2 && mouseY >= y - h/2 && mouseY <= y + h/2)
     {
-      if (statement) 
+      if (type == "Octave")
       {
-        statement = false;
-      } else if (!statement)
+        selectedOctave += number;
+      } else if (type == "Chords")
       {
-        statement = true;
+        if (chords == false)
+        {
+          chords = true;
+        } else
+        {
+          chords = false;
+        }
+      } else if (type == "KinectControl")
+      {
+        if (kinectControl) 
+        {
+          kinectControl = false;
+        } else if (!kinectControl) 
+        {
+          kinectControl = true;
+        }
+      }
+      else if (type == "NextScale")
+      {
+        nextScale += number;
       }
     }
   }

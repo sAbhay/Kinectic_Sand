@@ -27,12 +27,12 @@ boolean colourSelectorShowing;
 Kinect kinect;
 KinectTracker tracker;
 
-SettingsMenu menu;
-
-Button settings;
-boolean settingsShowing = false;
+boolean settings = false;
 
 boolean kinectControl = false;
+
+int numberOfButtons = 6;
+Button[] buttons = new Button[numberOfButtons];
 
 void setup()
 {
@@ -61,15 +61,22 @@ void setup()
   recorder = minim.createRecorder(music, "Sweet Tunez.wav");
   time = millis();
 
-  menu = new SettingsMenu();
-  settings = new Button(100, 100, 60, 60, "Settings", settingsShowing);
+  buttons[0] = new Button(width/2 - 50, height/2 + 100, 20, 15, "-", "Octave", -1);
+  buttons[1] = new Button(width/2 + 50, height/2 + 100, 20, 15, "+", "Octave", 1);
+  buttons[2] = new Button(2*width/3 - 100, 2*height/3, 20, 15, "-", "NextScale", -1);
+  buttons[3] = new Button(2*width/3 + 100, 2*height/3, 20, 15, "+", "NextScale", 1);
+  buttons[numberOfButtons-2] = new Button(width/2 + 100, height/2 - 100, 20, 15, "Chords", "Chords", 1);
+  buttons[numberOfButtons-1] = new Button(width/2 - 100, height/2 - 100, 20, 15, "Kinect Control", "KinectControl", 1);
 }
 
 void draw()
 {
-  if(selectedOctave < 1) selectedOctave = 1;
-  if(selectedOctave > 5) selectedOctave = 5;
+  if (selectedOctave < 1) selectedOctave = 1;
+  if (selectedOctave > octave.length - 2) selectedOctave = octave.length - 2;
   
+  if(nextScale < 0) nextScale = 24;
+  if(nextScale > 24) nextScale = 0;
+
   if (time < millis())
   {
     GenerateMusic(60);
@@ -117,6 +124,11 @@ void draw()
   {
     colourSelector();
   }
+
+  if (settings)
+  {
+    settingsMenu();
+  }
 }
 
 void colourSelector()
@@ -134,12 +146,6 @@ void colourSelector()
   }
 }
 
-void mouseClicked()
-{
-  menu.track();
-  settings.change();
-}
-
 void mouseReleased()
 {
   if (colourSelectorShowing)
@@ -154,6 +160,17 @@ void mouseReleased()
       h = mouseX/(width/360);
       s = 255;
       b = 2 * mouseY/(height/255);
+    }
+  }
+}
+
+void mousePressed()
+{
+  if (settings)
+  {
+    for (int i = 0; i < buttons.length; i++)
+    {
+      buttons[i].change();
     }
   }
 }
@@ -218,17 +235,59 @@ void keyPressed()
       kinectControl = true;
     }
   }
-  
-  if(key == CODED)
+
+  if (key == CODED)
   {
-  if(keyCode == UP)
+    if (keyCode == UP)
+    {
+      selectedOctave++;
+    }
+
+    if (keyCode == DOWN)
+    {
+      selectedOctave--;
+    }
+  }
+
+  if (key == ESC)
   {
-    selectedOctave++;
+    key = 0;
+
+    if (settings)
+    {
+      settings = false;
+    } else if (!settings)
+    {
+      settings = true;
+    }
+  }
+}
+
+void settingsMenu()
+{
+  fill(255);
+  rect(width/2, height/2, width, height);
+
+  fill(0);
+  text("Now Playing From: " + scaleName[scale], width/2, height/2);
+
+  text("Octave: " + selectedOctave, width/2, height/2 + 100);
+
+  for (int i = 0; i < buttons.length-2; i++)
+  {
+    buttons[i].display(true);
   }
   
-  if(keyCode == DOWN)
+  buttons[numberOfButtons-2].display(chords);
+  buttons[numberOfButtons-1].display(kinectControl);
+  
+  if(nextScale != 0)
   {
-    selectedOctave--;
+    fill(0);
+   text("Playing Next: " + scaleName[nextScale], 2*width/3, 2*height/3); 
+  } else {
+    fill(0);
+   text("Playing Next: Random", 2*width/3, 2*height/3); 
   }
-  }
+  
 }

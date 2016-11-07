@@ -79,10 +79,26 @@ class Button
         {
           kinectControl = true;
         }
-      }
-      else if (type == "NextScale")
+      } else if (type == "NextScale")
       {
         nextScale += number;
+      } else if (type == "Record")
+      {
+        if (recorder.isRecording())
+        {
+          recorder.endRecord(); 
+          println("Recorded.");
+        } else
+        {
+          recorder.beginRecord();
+        }
+      } else if (type == "Save")
+      {
+        recorder.save();
+        println("Saved.");
+      } else if (type == "Mode")
+      {
+        mode += number;
       }
     }
   }

@@ -18,7 +18,7 @@ import ddf.minim.ugens.*;
 Box2DProcessing box2d;
 
 ArrayList<Sand> sand = new ArrayList<Sand>();
-Boundary[] boundary = new Boundary[3];
+Boundary[] boundary = new Boundary[4];
 
 int h, s, b;
 
@@ -29,13 +29,16 @@ boolean settings = false;
 
 boolean kinectControl = false;
 
-int numberOfButtons = 10;
+int numberOfButtons = 14;
 Button[] buttons = new Button[numberOfButtons];
 
-ArrayList<Trampoline> t = new ArrayList<Trampoline>();
+ArrayList<Platform> p = new ArrayList<Platform>();
 
 int mode = 0;
 String[] modes = {"Sand", "Horizontal Platform", "Vertical Platform"};
+
+int verticalGravity = -10;
+int horizontalGravity = 0;
 
 void setup()
 {
@@ -52,12 +55,13 @@ void setup()
 
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
-  box2d.setGravity(0, -15);
+  box2d.setGravity(horizontalGravity, verticalGravity);
   box2d.setContinuousPhysics(true);
 
   boundary[0] = new Boundary(-2, height/2, 2, height, color(255));
   boundary[1] = new Boundary(width/2, height - 1, width, 2, color(255));
   boundary[2] = new Boundary(width - 1, height/2, 2, height, color(255));
+  boundary[3] = new Boundary(width/2, 1, width, 2, color(255));
 
   minim = new Minim(this);
   music = minim.getLineOut();
@@ -71,6 +75,10 @@ void setup()
   buttons[4] = new Button(width/3 + 50, 2*height/3 + 20, 20, 15, "Save", "Save", 1);
   buttons[5] = new Button(width/4 - 50, height/4, 20, 15, "-", "Mode", -1);
   buttons[6] = new Button(width/4 + 50, height/4, 20, 15, "+", "Mode", 1);
+  buttons[7] = new Button(width/5 - 50, 5*height/6 + 50, 20, 15, "-", "horizontalGravity", -1);
+  buttons[8] = new Button(width/5 + 50, 5*height/6 + 50, 20, 15, "+", "horizontalGravity", 1);
+  buttons[9] = new Button(width/5 - 50, 5*height/6 + 100, 20, 15, "-", "verticalGravity", -1);
+  buttons[10] = new Button(width/5 + 50, 5*height/6 + 100, 20, 15, "+", "verticalGravity", 1);
   buttons[numberOfButtons-3] = new Button(width/3, height/3, 20, 15, "Recorder", "Record", 1);
   buttons[numberOfButtons-2] = new Button(width/2 + 100, height/2 - 100, 20, 15, "Chords", "Chords", 1);
   buttons[numberOfButtons-1] = new Button(width/2 - 100, height/2 - 100, 20, 15, "Kinect Control", "KinectControl", 1);
@@ -137,9 +145,9 @@ void draw()
     sand.get(i).display();
   }
 
-  for (int i = 0; i < t.size(); i++)
+  for (int i = 0; i < p.size(); i++)
   {
-    t.get(i).display();
+    p.get(i).display();
   }
 
   if (settings)
@@ -166,21 +174,21 @@ void mousePressed()
 
       if (alignment == 0)
       {
-        t.add(new Trampoline(mouseX, mouseY, (int) random(50, 75), 10, color(random(0, 128))));
+        p.add(new Platform(mouseX, mouseY, (int) random(50, 75), 10, color(random(0, 128))));
       } else if (alignment == 1)
       {
-        t.add(new Trampoline(mouseX, mouseY, 10, (int) random(50, 75), color(random(0, 128))));
+        p.add(new Platform(mouseX, mouseY, 10, (int) random(50, 75), color(random(0, 128))));
       }
     }
 
     if (mode == 1)
     {
-      t.add(new Trampoline(mouseX, mouseY, (int) random(50, 75), 10, color(random(0, 128))));
+      p.add(new Platform(mouseX, mouseY, (int) random(50, 75), 10, color(random(0, 128))));
     }
 
     if (mode == 2)
     {
-      t.add(new Trampoline(mouseX, mouseY, 10, (int) random(50, 75), color(random(0, 128))));
+      p.add(new Platform(mouseX, mouseY, 10, (int) random(50, 75), color(random(0, 128))));
     }
   }
 }
@@ -194,13 +202,13 @@ void keyPressed()
       s.killBody();
     }
 
-    for (Trampoline trampoline : t)
+    for (Platform platform : p)
     {
-      trampoline.killBody();
+      platform.killBody();
     }
 
     sand.clear();
-    t.clear();
+    p.clear();
   }
 
   if (key == ESC)
@@ -247,4 +255,8 @@ void settingsMenu()
 
   fill(0);
   text("Mode: " + modes[mode], width/4, height/4 - 10);
+  
+  text("Gravity = (" + horizontalGravity + "," + verticalGravity + ")", width/5, 5*height/6);
+  text("Horizontal", width/5, 5*height/6 + 60);
+  text("Vertical", width/5, 5*height/6 + 110);
 }

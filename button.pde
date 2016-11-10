@@ -99,6 +99,16 @@ class Button
       } else if (type == "Mode")
       {
         mode += number;
+      } else if(type == "verticalGravity")
+      {
+       verticalGravity += number;
+       
+       box2d.setGravity(horizontalGravity, verticalGravity);
+      } else if(type == "horizontalGravity")
+      {
+       horizontalGravity += number;
+       
+       box2d.setGravity(horizontalGravity, verticalGravity);
       }
     }
   }

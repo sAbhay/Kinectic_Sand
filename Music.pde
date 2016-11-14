@@ -1,7 +1,7 @@
 AudioOutput music;
 Minim minim;
 AudioRecorder recorder;
-int octave[] = {1, 2, 3, 4, 5, 6, 7}, time, note;
+int octave[] = {1, 2, 3, 4, 5, 6, 7, 8, 9}, time, note;
 boolean chords = true;
 int selectedOctave = 3;
 String scales[][][] = 
@@ -156,6 +156,66 @@ String scales[][][] =
  {"Ab" + octave[4], "Bb" + octave[4], "B" + octave[4], "Db" + octave[5], "Eb" + octave[5], "E" + octave[5], "G" + octave[5], "Ab" + octave[5]}, //G# or Ab Harmonic Minor
  ////The Chrome Zone
  //{"Ab" + octave[4], "A" + octave[4], "Bb" + octave[4], "B" + octave[4], "C" + octave[5], "Db" + octave[5], "D" + octave[5], "Eb" + octave[5], "E" + octave[5], "F" + octave[5], "Gb" + octave[5], "G" + octave[5]} //Chromatic Scale
+ },
+ {
+ {"Not Actually a Scale"}, 
+ {"C" + octave[5], "D" + octave[5], "E" + octave[5], "F" + octave[5], "G" + octave[5], "A" + octave[5], "B" + octave[5], "C" + octave[6], "D" + octave[6], "E" + octave[6], "F" + octave[6], "G" + octave[6]}, //C Major
+ {"Db" + octave[5], "Eb" + octave[5], "F" + octave[5], "Gb" + octave[5], "Ab" + octave[5], "Bb" + octave[5], "C" + octave[6], "Db"  + octave[6], "Eb"  + octave[6], "F"  + octave[6], "Gb"  + octave[6], "Ab" + octave[6]}, //C# or Db Major
+ {"D"  + octave[5], "E" + octave[5], "Gb" + octave[5], "G" + octave[5], "A" +  + octave[5], "B" +  + octave[5], "Db" + octave[6], "D" + octave[6], "E" + octave[6], "Gb" + octave[6], "G" + octave[6], "A" + octave[6]}, //D Major
+ {"Eb" + octave[5], "F" + octave[5], "G" + octave[5], "Ab" + octave[5], "Bb" + octave[5], "C" + octave[6], "D" + octave[6], "Eb" + octave[6], "F" + octave[6], "G" + octave[6], "Ab" + octave[6], "Bb" + octave[6]}, //D# or Eb Major
+ {"E" + octave[5], "Gb" + octave[5], "Ab" + octave[5], "A" + octave[5], "B" + octave[5], "Db" + octave[6], "Eb" + octave[6], "E" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "A" + octave[6], "B" + octave[6]},  //E Major
+ {"F" + octave[5], "G" + octave[5], "A" + octave[5], "Bb" + octave[5], "C" + octave[6], "D" + octave[6], "E" + octave[6], "F" + octave[6], "G" + octave[6], "A" + octave[6], "Bb" + octave[6], "C" + octave[7]},  //F Major
+ {"Gb" + octave[5], "Ab" + octave[5], "Bb" + octave[5], "B" + octave[5], "Db" + octave[6], "Eb" + octave[6], "F" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "B" + octave[6], "Db" + octave[7]}, //F# or Gb Major
+ {"G" + octave[5], "A" + octave[5], "B" + octave[5], "C" + octave[6], "D" + octave[6], "E" + octave[6], "Gb" + octave[6], "G" + octave[6], "A" + octave[6], "B" + octave[6], "C" + octave[7], "D" + octave[7]}, //G Major
+ {"Ab" + octave[5], "Bb" + octave[5], "C" + octave[6], "Db" + octave[6], "Eb" + octave[6], "F" + octave[6], "G" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "C" + octave[7], "Db" + octave[7], "Eb" + octave[7]}, //G# or Ab Major
+ {"A" + octave[5], "B" + octave[5], "Db" + octave[6], "D" + octave[6], "E" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "A" + octave[6], "B" + octave[6], "Db" + octave[7], "D" + octave[7], "E" + octave[7]}, //A Major
+ {"Bb" + octave[5], "C" + octave[6], "D" + octave[6], "Eb" + octave[6], "F" + octave[6], "G" + octave[6], "A" + octave[6], "Bb" + octave[6], "C" + octave[7], "D" + octave[7], "Eb" + octave[7], "F" + octave[7]}, //A# or Bb Major
+ {"B" + octave[5], "Db" + octave[6], "Eb" + octave[6], "E" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "B" + octave[6], "Db" + octave[7], "Eb" + octave[7], "E" + octave[7], "Gb" + octave[7]}, //B Major 
+ //The Following Scales are Harmonic Minor Scales
+ {"A" + octave[5], "B" + octave[5], "C" + octave[6], "D" + octave[6], "E" + octave[6], "F" + octave[6], "G#" + octave[6], "A" + octave[6]}, //A Harmonic Minor
+ {"Bb" + octave[5], "C" + octave[6], "Db" + octave[6], "Eb" + octave[6], "F" + octave[6], "Gb" + octave[6], "A" + octave[6], "Bb" + octave[6]}, //A# or Bb Harmonic Minor
+ {"B" + octave[5], "Db" + octave[6], "D" + octave[6], "E" + octave[6], "Gb" + octave[6], "G" + octave[6], "Bb" + octave[6], "B" + octave[6]}, //B Harmonic Minor
+ {"C" + octave[5], "D" + octave[5], "Eb" + octave[5], "F" + octave[5], "G" + octave[5], "Ab" + octave[5], "B" + octave[5], "C" + octave[6]}, //C Harmonic Minor
+ {"Db" + octave[5], "Eb" + octave[5], "E" + octave[5], "Gb" + octave[5], "Ab" + octave[5], "A" + octave[5], "C" + octave[6], "Db" + octave[6]}, //C# or Db Harmonic Minor
+ {"D" + octave[5], "E" + octave[5], "F" + octave[5], "G" + octave[5], "A" + octave[5], "Bb" + octave[5], "Db" + octave[6], "D" + octave[6]}, //D Harmonic Minor
+ {"Eb" + octave[5], "F" + octave[5], "Gb" + octave[5], "Ab" + octave[5], "Bb" + octave[5], "B" + octave[5], "D" + octave[6], "Eb" + octave[6]}, //D# or Eb Harmonic Minor
+ {"E" + octave[5], "Gb" + octave[5], "G" + octave[5], "A" + octave[5], "B" + octave[5], "C" + octave[6], "Eb" + octave[6], "E" + octave[6]}, //E Harmonic Minor
+ {"F" + octave[5], "G" + octave[5], "Ab" + octave[5], "Bb" + octave[5], "C" + octave[6], "Db" + octave[6], "E" + octave[6], "F" + octave[6]}, //F Harmonic Minor
+ {"Gb" + octave[5], "Ab" + octave[5], "A" + octave[5], "B" + octave[5], "Db" + octave[6], "D" + octave[6], "F" + octave[6], "Gb" + octave[6]}, //F# or Gb Harmonic Minor
+ {"G" + octave[5], "A" + octave[5], "Bb" + octave[5], "C" + octave[6], "D" + octave[6], "Eb" + octave[6], "Gb" + octave[6], "G" + octave[6]}, //G Harmonic Minor
+ {"Ab" + octave[5], "Bb" + octave[5], "B" + octave[5], "Db" + octave[6], "Eb" + octave[6], "E" + octave[6], "G" + octave[6], "Ab" + octave[6]}, //G# or Ab Harmonic Minor
+ ////The Chrome Zone
+ //{"Ab" + octave[5], "A" + octave[5], "Bb" + octave[5], "B" + octave[5], "C" + octave[6], "Db" + octave[6], "D" + octave[6], "Eb" + octave[6], "E" + octave[6], "F" + octave[6], "Gb" + octave[6], "G" + octave[6]} //Chromatic Scale
+ },
+ {
+ {"Not Actually a Scale"}, 
+ {"C" + octave[6], "D" + octave[6], "E" + octave[6], "F" + octave[6], "G" + octave[6], "A" + octave[6], "B" + octave[6], "C" + octave[7], "D" + octave[7], "E" + octave[7], "F" + octave[7], "G" + octave[7]}, //C Major
+ {"Db" + octave[6], "Eb" + octave[6], "F" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "C" + octave[7], "Db"  + octave[7], "Eb"  + octave[7], "F"  + octave[7], "Gb"  + octave[7], "Ab" + octave[7]}, //C# or Db Major
+ {"D"  + octave[6], "E" + octave[6], "Gb" + octave[6], "G" + octave[6], "A" +  + octave[6], "B" +  + octave[6], "Db" + octave[7], "D" + octave[7], "E" + octave[7], "Gb" + octave[7], "G" + octave[7], "A" + octave[7]}, //D Major
+ {"Eb" + octave[6], "F" + octave[6], "G" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "C" + octave[7], "D" + octave[7], "Eb" + octave[7], "F" + octave[7], "G" + octave[7], "Ab" + octave[7], "Bb" + octave[7]}, //D# or Eb Major
+ {"E" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "A" + octave[6], "B" + octave[6], "Db" + octave[7], "Eb" + octave[7], "E" + octave[7], "Gb" + octave[7], "Ab" + octave[7], "A" + octave[7], "B" + octave[7]},  //E Major
+ {"F" + octave[6], "G" + octave[6], "A" + octave[6], "Bb" + octave[6], "C" + octave[7], "D" + octave[7], "E" + octave[7], "F" + octave[7], "G" + octave[7], "A" + octave[7], "Bb" + octave[7], "C" + octave[8]},  //F Major
+ {"Gb" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "B" + octave[6], "Db" + octave[7], "Eb" + octave[7], "F" + octave[7], "Gb" + octave[7], "Ab" + octave[7], "Bb" + octave[7], "B" + octave[7], "Db" + octave[8]}, //F# or Gb Major
+ {"G" + octave[6], "A" + octave[6], "B" + octave[6], "C" + octave[7], "D" + octave[7], "E" + octave[7], "Gb" + octave[7], "G" + octave[7], "A" + octave[7], "B" + octave[7], "C" + octave[8], "D" + octave[8]}, //G Major
+ {"Ab" + octave[6], "Bb" + octave[6], "C" + octave[7], "Db" + octave[7], "Eb" + octave[7], "F" + octave[7], "G" + octave[7], "Ab" + octave[7], "Bb" + octave[7], "C" + octave[8], "Db" + octave[8], "Eb" + octave[8]}, //G# or Ab Major
+ {"A" + octave[6], "B" + octave[6], "Db" + octave[7], "D" + octave[7], "E" + octave[7], "Gb" + octave[7], "Ab" + octave[7], "A" + octave[7], "B" + octave[7], "Db" + octave[8], "D" + octave[8], "E" + octave[8]}, //A Major
+ {"Bb" + octave[6], "C" + octave[7], "D" + octave[7], "Eb" + octave[7], "F" + octave[7], "G" + octave[7], "A" + octave[7], "Bb" + octave[7], "C" + octave[8], "D" + octave[8], "Eb" + octave[8], "F" + octave[8]}, //A# or Bb Major
+ {"B" + octave[6], "Db" + octave[7], "Eb" + octave[7], "E" + octave[7], "Gb" + octave[7], "Ab" + octave[7], "Bb" + octave[7], "B" + octave[7], "Db" + octave[8], "Eb" + octave[8], "E" + octave[8], "Gb" + octave[8]}, //B Major 
+ //The Following Scales are Harmonic Minor Scales
+ {"A" + octave[6], "B" + octave[6], "C" + octave[7], "D" + octave[7], "E" + octave[7], "F" + octave[7], "G#" + octave[7], "A" + octave[7]}, //A Harmonic Minor
+ {"Bb" + octave[6], "C" + octave[7], "Db" + octave[7], "Eb" + octave[7], "F" + octave[7], "Gb" + octave[7], "A" + octave[7], "Bb" + octave[7]}, //A# or Bb Harmonic Minor
+ {"B" + octave[6], "Db" + octave[7], "D" + octave[7], "E" + octave[7], "Gb" + octave[7], "G" + octave[7], "Bb" + octave[7], "B" + octave[7]}, //B Harmonic Minor
+ {"C" + octave[6], "D" + octave[6], "Eb" + octave[6], "F" + octave[6], "G" + octave[6], "Ab" + octave[6], "B" + octave[6], "C" + octave[7]}, //C Harmonic Minor
+ {"Db" + octave[6], "Eb" + octave[6], "E" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "A" + octave[6], "C" + octave[7], "Db" + octave[7]}, //C# or Db Harmonic Minor
+ {"D" + octave[6], "E" + octave[6], "F" + octave[6], "G" + octave[6], "A" + octave[6], "Bb" + octave[6], "Db" + octave[7], "D" + octave[7]}, //D Harmonic Minor
+ {"Eb" + octave[6], "F" + octave[6], "Gb" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "B" + octave[6], "D" + octave[7], "Eb" + octave[7]}, //D# or Eb Harmonic Minor
+ {"E" + octave[6], "Gb" + octave[6], "G" + octave[6], "A" + octave[6], "B" + octave[6], "C" + octave[7], "Eb" + octave[7], "E" + octave[7]}, //E Harmonic Minor
+ {"F" + octave[6], "G" + octave[6], "Ab" + octave[6], "Bb" + octave[6], "C" + octave[7], "Db" + octave[7], "E" + octave[7], "F" + octave[7]}, //F Harmonic Minor
+ {"Gb" + octave[6], "Ab" + octave[6], "A" + octave[6], "B" + octave[6], "Db" + octave[7], "D" + octave[7], "F" + octave[7], "Gb" + octave[7]}, //F# or Gb Harmonic Minor
+ {"G" + octave[6], "A" + octave[6], "Bb" + octave[6], "C" + octave[7], "D" + octave[7], "Eb" + octave[7], "Gb" + octave[7], "G" + octave[7]}, //G Harmonic Minor
+ {"Ab" + octave[6], "Bb" + octave[6], "B" + octave[6], "Db" + octave[7], "Eb" + octave[7], "E" + octave[7], "G" + octave[7], "Ab" + octave[7]}, //G# or Ab Harmonic Minor
+ ////The Chrome Zone
+ //{"Ab" + octave[6], "A" + octave[6], "Bb" + octave[6], "B" + octave[6], "C" + octave[7], "Db" + octave[7], "D" + octave[7], "Eb" + octave[7], "E" + octave[7], "F" + octave[7], "Gb" + octave[7], "G" + octave[7]} //Chromatic Scale
  }
  };
 
